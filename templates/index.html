@@ -243,6 +243,11 @@ var CANVAS_HEIGHT = Math.round(jQuery(window).height());
 
 var FPS = 30;
 
+var LIGHTNING_STRIKES = [];
+var LIGHTNING_IMAGE;
+var LIGHTNING_RATE = 0.01;
+var LIGHTNINNG = true;
+
 var RAIN_DROPS = [];
 var RAIN_DROP_IMAGE;
 var RAIN_RATE = 0.5;
@@ -282,6 +287,9 @@ function startTheShow(){
     CLOUD_IMAGE = new Image();
     CLOUD_IMAGE.src = 'static/img/Cloud.png'; 
 
+    LIGHTNING_IMAGE = new Image();
+    LIGHTNING_IMAGE.src = 'static/img/Lightning1.png';
+
     
     var i = 0;
 
@@ -298,6 +306,40 @@ function startTheShow(){
     
     Go();
 }
+
+function lightning(I){
+    I.active = true;
+
+    I.xVelocity = 0;
+    I.yVelocity = 0;
+    
+    I.age = 0;
+
+    I.inBounds = function() {
+        return I.x >= 0 && I.x <= CANVAS_WIDTH && I.y >= -100 && I.y <= CANVAS_HEIGHT;    
+    };
+
+    I.draw = function() {
+        canvas.drawImage(LIGHTNING_IMAGE,I.x,I.y);
+    };
+
+    I.explode = function() {
+    	this.active = false;
+    // Extra Credit: Add an explosion graphic
+    };
+
+    I.update = function() {
+
+        I.age = I.age + 1;
+
+        if(this.age > 10) {
+        	this.active = false;
+        }
+    };
+
+	return I;
+}
+
   
 function rainDrop(I) {
     I.active = true;
@@ -397,6 +439,18 @@ function update() {
         rainDrop.update();
     });
 
+    if(Math.random() < LIGHTNING_RATE) {
+
+    	LIGHTNING_STRIKES.push(lightning({            
+            x: Math.random()*CANVAS_WIDTH,
+            y: 100
+        }));
+    }
+
+    LIGHTNING_STRIKES.forEach(function(lightning){
+    	lightning.update();
+    });
+
     CLOUDS.forEach(function(cloud){
     	
         cloud.update();
@@ -410,6 +464,10 @@ function update() {
         return rainDrop.active;
     });
     
+    LIGHTNING_STRIKES = LIGHTNING_STRIKES.filter(function(lightning){
+    	return lightning.active;
+
+    });
   
     
    
@@ -423,9 +481,15 @@ function draw() {
         rainDrop.draw();
     });
 
+    LIGHTNING_STRIKES.forEach(function(lightning) {
+        lightning.draw();
+    });
+
     CLOUDS.forEach(function(cloud) {
         cloud.draw();
     });
+
+    
     
 }
   
