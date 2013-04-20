@@ -19,8 +19,8 @@ catHeight = cat.size[1]*catWidth/cat.size[0]
 cat = cat.resize((int(catWidth),int(catHeight)),Image.BICUBIC)
 """
 file_path = os.getcwd() + "\\static\\"
-cat_path = "testphotos/blackcat.png"
-catWidth = 60
+cat_path = "testphotos/grumpycat.png"
+catWidth = 100
 
 def LoadImage(filename):
 	print "LoadImage"
@@ -129,7 +129,7 @@ def CopyOver(image,cat,coordinates):
 	newImage = Image.fromarray(image_array)
 	# Uncomment to debug
 	#newImage.show()
-	image.show()
+	#image.show()
 	tmatch.SaveImage(image,"_cats_")
 
 """
@@ -138,4 +138,4 @@ coordinates = tmatch.GetCoordinates(image_path)
 CopyOver(image, cat, coordinates)
 """
 
-LoadImage('students.jpg')
+#LoadImage('students.jpg')

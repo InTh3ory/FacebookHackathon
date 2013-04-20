@@ -16,7 +16,7 @@ scale = 0.75
 templateWidth = 15
 
 # Threshold
-threshold = 0.5175
+threshold = 0.6
 
 # Path to save images
 global static
@@ -157,11 +157,11 @@ def GetCoordinates(image_path):
 
 	coordinates = FindTemplate(pyramid, template, threshold)
 
-	coordinates = PruneCoordinates(coordinates, templateWidth/2)
+	coordinates = PruneCoordinates(coordinates, templateWidth*2)
 	DrawFaces(im,coordinates,template)
 
 	print "coord scale value:"
-	print coordinates[0]
+	print len(coordinates)
 
 	return coordinates
 
