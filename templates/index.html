@@ -134,7 +134,7 @@ var FPS = 30;
 var RAIN_DROPS = [];
 var RAIN_DROP_IMAGE;
 var RAIN_RATE = 0.5;
-var RAIN = false;
+var RAIN = true;
 
 var CLOUDS = [];
 var CLOUD_IMAGE;
@@ -174,7 +174,7 @@ function startTheShow(){
     CLOUDS.push(cloud({
         speed: 0,
         x: 200,
-        y: -500
+        y: 500
     }));
     
     
@@ -212,7 +212,7 @@ return I;
 }
 
 function cloud(I) {
-
+	console.log("Cloud Method");
     I.active = true;
 
     I.xVelocity = 0;
@@ -258,6 +258,7 @@ function update() {
    
       
     if(Math.random() < RAIN_RATE && RAIN){
+    	
         RAIN_DROPS.push(rainDrop({
             speed: 0,
             acceleration: 0.3 + Math.random()*0.5,
