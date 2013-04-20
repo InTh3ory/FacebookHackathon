@@ -28,7 +28,7 @@ class upload:
         x = web.input(myfile={})
         filename = x['myfile'].filename
 
-        currentDir = os.getcwd() + "\\static\\"
+        currentDir = os.getcwd() + "/static/"
         filedir = currentDir # change this to the directory you want to store the file in.
         if 'myfile' in x: # to check if the file-object is created
             filepath=x.myfile.filename.replace('\\','/') # replaces the windows-style slashes with linux ones.
