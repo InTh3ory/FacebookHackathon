@@ -9,7 +9,8 @@ import os
 urls = (
 	'/','index',
     '/upload', 'upload',
-    '/detect', 'detect'
+    '/detect', 'detect',
+    '/cats', 'cats',
 	)
 
 my_form = web.form.Form(web.form.Textbox('', class_='textfield', id='textfield'), )
@@ -19,6 +20,23 @@ class index:
 		form = my_form()
 		return render.index(form, "Index")
 
+class cats:
+    def GET(self):
+        form = my_form()
+        return render.index(form, "Index")
+
+    def POST(self):
+        print "Cats - Post"
+
+        user_input = web.input();   
+        filename = user_input.filename
+
+        name = os.path.splitext(filename)[0]
+        extension = os.path.splitext(filename)[1]
+
+        print name + "_cats_" + extension
+        return name + "_cats_" + extension 
+
 class detect:
     def GET(self):
         form = my_form()
@@ -26,8 +44,17 @@ class detect:
 
     def POST(self):
         print "Detect - Post"
-        user_input = web.input();
-        print "hello"
+        
+        user_input = web.input();   
+        filename = user_input.filename
+
+        copycat.LoadImage(filename)
+
+        name = os.path.splitext(filename)[0]
+        extension = os.path.splitext(filename)[1]
+
+        print name + "_faces_" + extension
+        return name + "_faces_" + extension 
 
 
 class upload:
@@ -48,8 +75,6 @@ class upload:
             fout = open(filedir +'/'+ filename,'wb') # creates the file where the uploaded file should be stored
             fout.write(x.myfile.file.read()) # writes the uploaded file to the newly created file.
             fout.close() # closes the file, upload complete.
-
-        copycat.LoadImage(filename)
 
         return filename
 
