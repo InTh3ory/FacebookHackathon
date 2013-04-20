@@ -11,6 +11,9 @@ urls = (
     '/upload', 'upload',
     '/detect', 'detect',
     '/cats', 'cats',
+    '/blur', 'blur',
+    '/sharpen', 'sharpen',
+    '/sepia', 'sepia',
 	)
 
 my_form = web.form.Form(web.form.Textbox('', class_='textfield', id='textfield'), )
@@ -19,6 +22,23 @@ class index:
 	def GET(self):
 		form = my_form()
 		return render.index(form, "Index")
+
+class blur:
+    def GET(self):
+        form = my_form()
+        return render.index(form, "Index")
+
+    def POST(self):
+        user_input = web.input();   
+        filename = user_input.filename
+
+        copycat.GaussFilter(filename)
+
+        name = os.path.splitext(filename)[0]
+        extension = os.path.splitext(filename)[1]
+
+        print name + "_blur_" + extension
+        return name + "_blur_" + extension 
 
 class cats:
     def GET(self):

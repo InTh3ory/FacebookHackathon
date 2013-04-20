@@ -33,6 +33,7 @@ $def with (form, text, title=None)
 		    	<div id="ProcessButtons">
 		    		<div class="KustumButton" id="Detect">Detect Faces</div>
 		    		<div class="KustumButton" id="Catify">Catify</div>
+		    		<div class="KustumButton" id="Blur">Blur</div>
 
 
 		    	</div>
@@ -117,6 +118,24 @@ $def with (form, text, title=None)
                 },
             });                         
     	});
+
+    	jQuery("#Blur").click(function(){
+    		var filenameText = jQuery("#ImageWindow").attr("data-filename");
+            jQuery.ajax({
+                type: "POST",
+                url: "blur",   
+                data: {filename : filenameText},
+                beforeSend: function(){
+                	RAIN = true;
+                	jQuery("#Status").text("Blurring Image...");
+                },
+                success: function(filename) {
+                	RAIN = false;
+                	jQuery("#ImageWindow").css("background-image", "url('static/" + filename +"')");
+                	jQuery("#Status").text("Catify Complete");
+                },
+            });                         
+    	});
     });
 
 
@@ -170,11 +189,11 @@ function startTheShow(){
     CLOUD_IMAGE = new Image();
     CLOUD_IMAGE.src = 'static/Cloud.png'; 
 
-    console.log('Adding Cloud');
+    
     CLOUDS.push(cloud({
         speed: 0,
         x: 200,
-        y: 500
+        y: 50
     }));
     
     
@@ -196,7 +215,7 @@ function rainDrop(I) {
     };
 
     I.explode = function() {
-    this.active = false;
+    	this.active = false;
     // Extra Credit: Add an explosion graphic
     };
 
@@ -212,7 +231,7 @@ return I;
 }
 
 function cloud(I) {
-	console.log("Cloud Method");
+	
     I.active = true;
 
     I.xVelocity = 0;
@@ -223,9 +242,8 @@ function cloud(I) {
     };
 
     I.draw = function() {
-    	console.log("Drawing Cloud");
-    	console.log(I.x);
-    	console.log(I.y);
+    	
+    	
         canvas.drawImage(CLOUD_IMAGE,I.x,I.y);
     };
 
@@ -235,10 +253,11 @@ function cloud(I) {
     };
 
     I.update = function() {
-        I.yVelocity = I.yVelocity + I.acceleration;
+    	
+        I.yVelocity = I.yVelocity;
         I.x += I.xVelocity;
         I.y += I.yVelocity;
-
+       
         I.active = I.active && I.inBounds();
     };
 
@@ -258,7 +277,7 @@ function update() {
    
       
     if(Math.random() < RAIN_RATE && RAIN){
-    	
+
         RAIN_DROPS.push(rainDrop({
             speed: 0,
             acceleration: 0.3 + Math.random()*0.5,
@@ -272,6 +291,7 @@ function update() {
     });
 
     CLOUDS.forEach(function(cloud){
+    	
         cloud.update();
     });
 
@@ -283,6 +303,7 @@ function update() {
         return rainDrop.active;
     });
     
+   
     
 }
     
