@@ -20,9 +20,12 @@ cat = cat.resize((int(catWidth),int(catHeight)),Image.BICUBIC)
 """
 file_path = "static/"
 cat_path = "testphotos/blackcat.png"
+catWidth = 60
 
 def LoadImage(filename):
-	image = Image.open(file_path+filename)
+
+	image_path = file_path+filename
+	image = Image.open(image_path)
 	cat = Image.open(cat_path)
 
 	#Resize Cat
