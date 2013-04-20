@@ -22,7 +22,9 @@ catHeight = cat.size[1]*catWidth/cat.size[0]
 cat = cat.resize((int(catWidth),int(catHeight)),Image.BICUBIC)
 """
 file_path = os.getcwd() + "\\static\\"
-cat_path = "testphotos/restoration.png"
+
+#cat_path = "testphotos/restoration.png"
+cat_path = "testphotos/grumpycat.png"
 catWidth = 90
 
 def GetImagePath(filename):
