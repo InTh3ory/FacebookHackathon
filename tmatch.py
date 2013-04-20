@@ -56,7 +56,9 @@ def FindTemplate(pyramid, template, threshold):
 	# Loop over every image in the pyramid to find matches.
 	for image in pyramid:
 		# Get the normalized cross correlation of the template with the image.
-		crossXC = ncc.normxcorr2D(image, template)
+		grey_image = image.convert('L')
+		#crossXC = ncc.normxcorr2D(image, template)
+		crossXC = ncc.normxcorr2D(grey_image, template)
 
 		# We loop through this 2D returned array to check for values larger than our threshold.
 		for y in range(len(crossXC)):
@@ -72,6 +74,8 @@ def DrawFaces(image, matches, template):
 	
 	width = template.size[0]
 	height = template.size[1]
+
+	print image.mode
 
 	for i in range(len(matches)):
 		s = matches[i][2]
@@ -137,7 +141,7 @@ def GetCoordinates(image_path):
 	#im = Image.open("testphotos/students.jpg") 
 	print image_path
 	im = Image.open(image_path) 
-	im.convert('RGB')
+	im = im.convert('RGB')
 
 	# Keep track of image name so we can use it later
 	global image_name

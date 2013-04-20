@@ -82,9 +82,11 @@ def CopyOver(image,cat,coordinates):
 
 
 		cwidth,cheight = cat.size
+		cWhalf = cwidth/2
+		chhalf = cheight/2
 		if x+cwidth < xBound and y+cheight < yBound:
-			#image.paste(cat, (x,y,cwidth,cheight))
-			image.paste(cat, cat.getbbox(), cat)
+			image.paste(cat, (x-cWhalf,y-chhalf,cwidth+x-cWhalf,cheight+y-chhalf))
+			#image.paste(cat, cat.getbbox(), cat)
 
 
 
@@ -127,7 +129,7 @@ def CopyOver(image,cat,coordinates):
 	newImage = Image.fromarray(image_array)
 	# Uncomment to debug
 	#newImage.show()
-	#image.show()
+	image.show()
 	tmatch.SaveImage(image,"_cats_")
 
 """
@@ -136,4 +138,4 @@ coordinates = tmatch.GetCoordinates(image_path)
 CopyOver(image, cat, coordinates)
 """
 
-#LoadImage('students.jpg')
+LoadImage('students.jpg')
