@@ -16,9 +16,7 @@ $def with (form, text, title=None)
     </head>
   <body>
       <div id="canvas-container"></div>  
-      <div id="header">
-      		I'm the header
-      </div>
+      
       <div id="content">  
 
       <div id="Wrapper">
@@ -138,6 +136,10 @@ var RAIN_DROP_IMAGE;
 var RAIN_RATE = 0.5;
 var RAIN = false;
 
+var CLOUDS = [];
+var CLOUD_IMAGE;
+var CLOUDY = true;
+
 var clock;
 
 var canvasElement = jQuery("<canvas style='overflow: hidden;' width='" + CANVAS_WIDTH + "' height='" + CANVAS_HEIGHT + "'></canvas>");
@@ -163,7 +165,18 @@ function stopTheShow() {
 
 function startTheShow(){
     RAIN_DROP_IMAGE = new Image();
-    RAIN_DROP_IMAGE.src='static/RainDrop.png';    
+    RAIN_DROP_IMAGE.src='static/RainDrop.png';   
+
+    CLOUD_IMAGE = new Image();
+    CLOUD_IMAGE.src = 'static/Cloud.png'; 
+
+    console.log('Adding Cloud');
+    CLOUDS.push(cloud({
+        speed: 0,
+        x: 200,
+        y: -500
+    }));
+    
     
     Go();
 }
@@ -198,6 +211,40 @@ function rainDrop(I) {
 return I;
 }
 
+function cloud(I) {
+
+    I.active = true;
+
+    I.xVelocity = 0;
+    I.yVelocity = 0;
+    
+    I.inBounds = function() {
+        return I.x >= 0 && I.x <= CANVAS_WIDTH && I.y >= -100 && I.y <= CANVAS_HEIGHT;    
+    };
+
+    I.draw = function() {
+    	console.log("Drawing Cloud");
+    	console.log(I.x);
+    	console.log(I.y);
+        canvas.drawImage(CLOUD_IMAGE,I.x,I.y);
+    };
+
+    I.explode = function() {
+    	this.active = false;
+    // Extra Credit: Add an explosion graphic
+    };
+
+    I.update = function() {
+        I.yVelocity = I.yVelocity + I.acceleration;
+        I.x += I.xVelocity;
+        I.y += I.yVelocity;
+
+        I.active = I.active && I.inBounds();
+    };
+
+return I;
+}
+
 
   
 function Go(){         
@@ -217,10 +264,18 @@ function update() {
             x: Math.random()*CANVAS_WIDTH,
             y: -50
         }));
-    }
+    }    
     
     RAIN_DROPS.forEach(function(rainDrop){
         rainDrop.update();
+    });
+
+    CLOUDS.forEach(function(cloud){
+        cloud.update();
+    });
+
+    CLOUDS = CLOUDS.filter(function(cloud){
+    	return cloud.active;
     });
 
     RAIN_DROPS = RAIN_DROPS.filter(function(rainDrop) {
@@ -236,7 +291,10 @@ function draw() {
     RAIN_DROPS.forEach(function(rainDrop) {
         rainDrop.draw();
     });
-    
+
+    CLOUDS.forEach(function(cloud) {
+        cloud.draw();
+    });
     
 }
   
