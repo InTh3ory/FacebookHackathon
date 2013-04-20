@@ -1,4 +1,4 @@
-$def with (page, title=None)
+$def with (form, text, title=None)
 <!DOCTYPE html>
 <html>
     <head>
@@ -16,15 +16,36 @@ $def with (page, title=None)
   <body>
       <div id="canvas-container"></div>  
       <div id="content">  
-       Hello World    
-       
+      
+      <br>
+	    <form class="form" method="post" action="upload"> 
+	    $:form.render()
+	    <input class="button" type="submit" value="send"/>    
+	    </form>
+	 
+	    <br><br>
+	    <span id="foo">$text</span> 
           
           
       </div>
        
   </body>
   
-<script>
-
-</script>
+<script type="text/javascript">
+                        jQuery(document).ready(function() {
+                        jQuery(".button").click(function() {
+                                var input_string = $$("input#textfield").val();
+                                jQuery.ajax({
+                                        type: "POST",
+                                        url: "/upload",
+                                        data: {textfield : input_string},
+                                        success: function(data) {
+                                        jQuery('#foo').html(data).hide().fadeIn(1500);
+                                        },
+                                        });
+                                return false;
+                                });
+                        });
+ 
+                </script>
 </html>
