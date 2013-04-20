@@ -7,6 +7,7 @@ import ImageFilter
 import scipy.misc
 import tmatch
 import os
+import random
 """
 image_path = "testphotos/students.jpg"
 
@@ -24,7 +25,11 @@ cat = cat.resize((int(catWidth),int(catHeight)),Image.BICUBIC)
 file_path = os.getcwd() + "\\static\\"
 
 #cat_path = "testphotos/restoration.png"
-cat_path = "testphotos/grumpycat.png"
+cats = []
+cats.append("testphotos/grumpycat.png")
+cats.append("testphotos/hipcat.png")
+cats.append("testphotos/restoration.png")
+#cat_path = "testphotos/grumpycat.png"
 catWidth = 90
 
 def GetImagePath(filename):
@@ -36,6 +41,9 @@ def LoadImage(filename):
 	print "LoadImage"
 	image_path = GetImagePath(filename)
 	image = Image.open(image_path)
+
+	cat_path = getRandomCat()
+
 	cat = Image.open(cat_path)
 
 	#Resize Cat
@@ -44,6 +52,11 @@ def LoadImage(filename):
 
 	coordinates = tmatch.GetCoordinates(image_path)
 	CopyOver(image, cat, coordinates)
+
+def getRandomCat():
+	index = random.randint(0,2)
+	return cats[index]
+
 
 def GaussFilter(filename):
 	path = GetImagePath(filename)
@@ -114,6 +127,9 @@ def CopyOver(image,cat,coordinates):
 	#image_array = np.asarray(image)
 	#cat_array = np.asarray(cat)
 
+	cat_path = getRandomCat()
+	cat = Image.open(cat_path)
+
 	image_array = np.array(image)
 	cat_array = np.array(cat)
 
@@ -130,6 +146,13 @@ def CopyOver(image,cat,coordinates):
 		x = int(round(coordinates[q][0]))
 		y = int(round(coordinates[q][1]))
 
+		cat_path = getRandomCat()
+		cat = Image.open(cat_path)
+
+		#Resize Cat
+		catHeight = cat.size[1]*catWidth/cat.size[0]
+		cat = cat.resize((int(catWidth),int(catHeight)),Image.BICUBIC) 
+
 		#x = coordinates[q][0]
 		#y = coordinates[q][1]
 
@@ -145,19 +168,11 @@ def CopyOver(image,cat,coordinates):
 		
 		draw = ImageDraw.Draw(image)
 
-		#image = image.convert('RGBA')
-		#cat = cat.convert('RGBA')
-		print "MODES"
-		print image.mode
-		print cat.mode
-
-
 		cwidth,cheight = cat.size
 		cWhalf = cwidth/2
 		chhalf = cheight/2
 		if x+cwidth < xBound and y+cheight < yBound:
 			image.paste(cat, (x-cWhalf,y-chhalf,cwidth+x-cWhalf,cheight+y-chhalf),cat)
-			#image.paste(cat, cat.getbbox(), cat)
 		
 		del draw
 
