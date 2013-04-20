@@ -26,7 +26,7 @@ $def with (form, text, title=None)
 
 	      <div id="ControlBar">
       			<form class="form" method="post" action="upload" enctype="multipart/form-data"> 
-		    		<input type="file" name="myfile" style="color: #777; font-size: 18px;">
+		    		<input id="ISFILEHERE" type="file" name="myfile" style="color: #777; font-size: 18px;">
 		    		<input id="RealSubmitButton" class="button" type="submit" value="send" style="display: none;"/>  
 		    		<div id="SubmitButton">Upload</div>
 		    	</form>
@@ -61,14 +61,13 @@ $def with (form, text, title=None)
   
 <script type="text/javascript">
 	jQuery("#SubmitButton").click(function(){
-		jQuery("#RealSubmitButton").click();
-	});
-
-    jQuery(document).ready(function() {
-    	jQuery(".button").click(function() {
-            
-
-            jQuery('form').ajaxForm({
+		var filename = jQuery("#ISFILEHERE").val();
+    		
+    	
+    	if(filename == "") {
+    			jQuery("#Status").text("Please select an image file to upload.")
+    	} else {
+    		jQuery('form').ajaxForm({
 		        beforeSend: function(){
                 	RAIN = true;
                 	jQuery("#Status").text("Uploading image...");
@@ -84,82 +83,112 @@ $def with (form, text, title=None)
 		 
 		        }
 		    });
-    	});
+    	}
+            
+	});
 
+    
     	jQuery("#Detect").click(function(){
     		var filenameText = jQuery("#ImageWindow").attr("data-filename");
-            jQuery.ajax({
-                type: "POST",
-                url: "detect",   
-                data: {filename : filenameText},
-                beforeSend: function(){
-                	RAIN = true;
-                	jQuery("#Status").text("Detecting Faces...");
-                },
-                success: function(filename) {
-                	RAIN = false;
-                	jQuery("#ImageWindow").css("background-image", "url('static/" + filename +"')");
-                	jQuery("#Status").text("Face Detection Complete");
-                },
-            });                         
+
+    		if(filenameText == "") {
+    			jQuery("#Status").text("Please select an image file to upload.")
+    		} else {
+
+	            jQuery.ajax({
+	                type: "POST",
+	                url: "detect",   
+	                data: {filename : filenameText},
+	                beforeSend: function(){
+	                	RAIN = true;
+	                	jQuery("#Status").text("Detecting Faces...");
+	                },
+	                success: function(filename) {
+	                	RAIN = false;
+	                	jQuery("#ImageWindow").css("background-image", "url('static/" + filename +"')");
+	                	jQuery("#Status").text("Face Detection Complete");
+	                },
+	            });   
+            }                      
     	});
 
     	jQuery("#Catify").click(function(){
     		var filenameText = jQuery("#ImageWindow").attr("data-filename");
-            jQuery.ajax({
-                type: "POST",
-                url: "cats",   
-                data: {filename : filenameText},
-                beforeSend: function(){
-                	RAIN = true;
-                	jQuery("#Status").text("Catifying Image...");
-                },
-                success: function(filename) {
-                	RAIN = false;
-                	jQuery("#ImageWindow").css("background-image", "url('static/" + filename +"')");
-                	jQuery("#Status").text("Catify Complete");
-                },
-            });                         
+
+    		if(filenameText == "") {
+    			jQuery("#Status").text("Please select an image file to upload.")
+    		} else {
+	            jQuery.ajax({
+	                type: "POST",
+	                url: "cats",   
+	                data: {filename : filenameText},
+	                beforeSend: function(){
+	                	RAIN = true;
+	                	jQuery("#Status").text("Catifying Image...");
+	                },
+	                success: function(filename) {
+	                	RAIN = false;
+	                	jQuery("#ImageWindow").css("background-image", "url('static/" + filename +"')");
+	                	jQuery("#Status").text("Catify Complete");
+	                },
+	            });    
+            }                     
     	});
 
     	jQuery("#Blur").click(function(){
     		var filenameText = jQuery("#ImageWindow").attr("data-filename");
-            jQuery.ajax({
-                type: "POST",
-                url: "blur",   
-                data: {filename : filenameText},
-                beforeSend: function(){
-                	RAIN = true;
-                	jQuery("#Status").text("Blurring Image...");
-                },
-                success: function(filename) {
-                	RAIN = false;
-                	jQuery("#ImageWindow").css("background-image", "url('static/" + filename +"')");
-                	jQuery("#Status").text("Catify Complete");
-                },
-            });                         
+
+    		if(filenameText == "") {
+    			jQuery("#Status").text("Please select an image file to upload.")
+    		} else {
+
+	            jQuery.ajax({
+	                type: "POST",
+	                url: "blur",   
+	                data: {filename : filenameText},
+	                beforeSend: function(){
+	                	RAIN = true;
+	                	jQuery("#Status").text("Blurring Image...");
+	                },
+	                success: function(filename) {
+	                	RAIN = false;
+	                	jQuery("#ImageWindow").css("background-image", "url('static/" + filename +"')");
+	                	jQuery("#Status").text("Catify Complete");
+	                },
+	            });     
+            }                    
     	});
 
     	jQuery("#Sharpen").click(function(){
     		var filenameText = jQuery("#ImageWindow").attr("data-filename");
-            jQuery.ajax({
-                type: "POST",
-                url: "sharp",   
-                data: {filename : filenameText},
-                beforeSend: function(){
-                	RAIN = true;
-                	jQuery("#Status").text("Sharpening Image...");
-                },
-                success: function(filename) {
-                	RAIN = false;
-                	jQuery("#ImageWindow").css("background-image", "url('static/" + filename +"')");
-                	jQuery("#Status").text("Sharpening Complete");
-                },
-            });                         
+
+    		if(filenameText == "") {
+    			jQuery("#Status").text("Please select an image file to upload.")
+    		} else {
+
+	            jQuery.ajax({
+	                type: "POST",
+	                url: "sharp",   
+	                data: {filename : filenameText},
+	                beforeSend: function(){
+	                	RAIN = true;
+	                	jQuery("#Status").text("Sharpening Image...");
+	                },
+	                success: function(filename) {
+	                	RAIN = false;
+	                	jQuery("#ImageWindow").css("background-image", "url('static/" + filename +"')");
+	                	jQuery("#Status").text("Sharpening Complete");
+	                },
+	            });     
+            }                    
     	});
 
     	jQuery("#Emboss").click(function(){
     		var filenameText = jQuery("#ImageWindow").attr("data-filename");
+
+    		if(filenameText == "") {
+    			jQuery("#Status").text("Please select an image file to upload.")
+    		} else {
             jQuery.ajax({
                 type: "POST",
                 url: "emboss",   
@@ -173,7 +202,8 @@ $def with (form, text, title=None)
                 	jQuery("#ImageWindow").css("background-image", "url('static/" + filename +"')");
                 	jQuery("#Status").text("Embossing Complete");
                 },
-            });                         
+            });   
+            }                      
     	});
 
     	jQuery("#Sepia").click(function(){
@@ -193,7 +223,7 @@ $def with (form, text, title=None)
                 },
             });                         
     	});
-    });
+
 
 
     

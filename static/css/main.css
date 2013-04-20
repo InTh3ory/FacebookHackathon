@@ -78,6 +78,7 @@ body {
     border-bottom: 1px solid #E3E4E7;
     background-color: white;
     margin-top: 100px;
+    box-shadow: 0px 0px 6px white;
 }
 
 #ControlBar {
@@ -85,9 +86,10 @@ body {
     background-color: #F6F7F8;
     padding: 20px;
     margin: 0 auto;
-    border: 1px solid rgb(200,200,200);
+    border: 2px solid rgb(200,200,200);
     border-top: 1px solid #D3D4D7;
     border-radius: 4px;
+    box-shadow: 0px 0px 10px white;
     
 }
 

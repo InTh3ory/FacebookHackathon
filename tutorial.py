@@ -108,7 +108,7 @@ class detect:
         name = os.path.splitext(filename)[0]
         extension = os.path.splitext(filename)[1]
 
-        print name + "_faces_" + extension
+        
         return name + "_faces_" + extension 
 
 
@@ -118,10 +118,10 @@ class upload:
         return render.index(form, "")
 
     def POST(self):
-        print "Entering Post"
+        
         x = web.input(myfile={})
         filename = x['myfile'].filename
-
+        
         currentDir = os.getcwd() + "/static/"
         filedir = currentDir # change this to the directory you want to store the file in.
         if 'myfile' in x: # to check if the file-object is created
