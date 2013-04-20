@@ -2,6 +2,8 @@ from PIL import Image, ImageDraw
 import numpy as np
 import math
 from scipy import signal
+from scipy import ndimage
+import scipy.misc
 import tmatch
 import os
 """
@@ -19,13 +21,17 @@ catHeight = cat.size[1]*catWidth/cat.size[0]
 cat = cat.resize((int(catWidth),int(catHeight)),Image.BICUBIC)
 """
 file_path = os.getcwd() + "\\static\\"
-cat_path = "testphotos/grumpycat.png"
-catWidth = 100
+cat_path = "testphotos/hipcat.png"
+catWidth = 90
+
+def GetImagePath(filename):
+	image_path = file_path+filename
+	image_path = image_path.replace('\\','/')
+	return image_path
 
 def LoadImage(filename):
 	print "LoadImage"
-	image_path = file_path+filename
-	image_path = image_path.replace('\\','/')
+	image_path = GetImagePath(filename)
 	image = Image.open(image_path)
 	cat = Image.open(cat_path)
 
@@ -35,6 +41,25 @@ def LoadImage(filename):
 
 	coordinates = tmatch.GetCoordinates(image_path)
 	CopyOver(image, cat, coordinates)
+
+def GaussFilter(filename):
+	path = GetImagePath(filename)
+	image = Image.open(path)
+	gauss_denoised = ndimage.gaussian_filter(image,2)
+	image = Image.fromarray(gauss_denoised)
+	image.show()
+
+def SharpFilter(filename):
+	path = GetImagePath(filename)
+	image = Image.open(path)
+	
+	blurr = ndimage.gaussian_filter(image,5)
+	filter_blurr = ndimage.gaussian_filter(blurr,1)
+	alpha = 30
+	sharpened = filter_blurr + alpha * (blurr - filter_blurr)
+
+	image = Image.fromarray(sharpened)
+	image.show()
 
 def CopyOver(image,cat,coordinates):
 
@@ -72,8 +97,6 @@ def CopyOver(image,cat,coordinates):
 		
 		draw = ImageDraw.Draw(image)
 
-
-
 		#image = image.convert('RGBA')
 		#cat = cat.convert('RGBA')
 		print "MODES"
@@ -87,43 +110,8 @@ def CopyOver(image,cat,coordinates):
 		if x+cwidth < xBound and y+cheight < yBound:
 			image.paste(cat, (x-cWhalf,y-chhalf,cwidth+x-cWhalf,cheight+y-chhalf),cat)
 			#image.paste(cat, cat.getbbox(), cat)
-
-
-
-		"""x1 = coordinates[q][0] + 30/2*s
-		x2 = coordinates[q][0] - 30/2*s
-		y1 = coordinates[q][1] + 30/2*s
-		y2 = coordinates[q][1] - 30/2*s
-		
-		# Then we use them to draw a green rectangle around the point.
-		draw.line((x1,y1,x2,y1),fill="green",width=2)
-		draw.line((x1,y2,x2,y2),fill="green",width=2)
-		draw.line((x1,y1,x1,y2),fill="green",width=2)
-		draw.line((x2,y1,x2,y2),fill="green",width=2)"""
-				
 		
 		del draw
-
-		"""for i in range(10):
-			for j in range(10):
-				if (x+i >= 0 and y+j >= 0) and (x+i < xBound and y+j < yBound) :
-					print ("HERE: ",x+i,y+j,image_array[x+i][y+j])
-					image_array[x+i][y+j] = 200"""
-
-		#for i in range(cat.size[0]):
-		"""for i in range(cat_array.shape[0]):
-			#for j in range(cat.size[1]):
-			for j in range(cat_array.shape[1]):
-				if (x+i >= 0 and y+j >= 0) and (x+i < xBound and y+j < yBound) :
-					#print cat_array[i][j]
-					#print image_array[i][j]
-					#image_array[x+i][y+j] = cat_array[i][j][0]
-					try:
-						image_array[x+i][y+j] = cat_array[i][j][0]
-					except IndexError as e:
-						print e
-						print cat_array[i][j]
-						pass"""
 
 
 	newImage = Image.fromarray(image_array)
@@ -138,4 +126,5 @@ coordinates = tmatch.GetCoordinates(image_path)
 CopyOver(image, cat, coordinates)
 """
 
+SharpFilter('students.jpg')
 #LoadImage('students.jpg')
