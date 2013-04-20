@@ -3,6 +3,7 @@ import numpy as np
 import math
 from scipy import signal
 import ncc
+import os
 
 ##############################################################################
 #                            Global "magic numbers"                          #
@@ -20,7 +21,7 @@ threshold = 0.5175
 # Path to save images
 global static
 #global image_name
-
+file_path = os.getcwd() + "/static/"
 
 #image_name = "unamed"
 
@@ -97,12 +98,13 @@ def DrawFaces(image, matches, template):
 # param1 = image to save
 # param2 = string of type of modification made
 def SaveImage(image, type):
+	print "Entering SaveImage"
 	#sub1 = 'static/'
 	sub2 = image_name[0:image_name.index('.')]	
 	sub3 = type
 	sub4 = image_name[image_name.index('.'):len(image_name)]	
-	savename = sub2+sub3+sub4
-	print savename
+	savename = file_path+sub2+sub3+sub4
+	print "Saving: " + savename
 	image.save(savename)
 
 def PruneCoordinates(matches, threshold):

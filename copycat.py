@@ -18,7 +18,7 @@ cat = Image.open(cat_path)
 catHeight = cat.size[1]*catWidth/cat.size[0]
 cat = cat.resize((int(catWidth),int(catHeight)),Image.BICUBIC)
 """
-file_path = os.getcwd() + "\\static\\"
+file_path = os.getcwd() + "/static/"
 cat_path = "testphotos/blackcat.png"
 catWidth = 60
 

@@ -22,7 +22,7 @@ $def with (form, text, title=None)
       <div id="content">  
 
       <div id="Wrapper">
-	      <div id="ImageWindow">
+	      <div id="ImageWindow" data-filename="">
 	      
 	      </div>
 
@@ -33,7 +33,8 @@ $def with (form, text, title=None)
 		    		<div id="SubmitButton">Upload</div>
 		    	</form>
 		    	<div id="ProcessButtons">
-		    		<div class="KustumButton">Detect Faces</div>
+		    		<div class="KustumButton" id="Detect">Detect Faces</div>
+		    		<div class="KustumButton" id="Catify">Catify</div>
 
 
 		    	</div>
@@ -61,26 +62,38 @@ $def with (form, text, title=None)
 
             jQuery('form').ajaxForm({
 		        beforeSubmit: function() {
-		            jQuery('#results').html('Submitting...');
+		            
 		        },
-		        success: function(data) {
-		        	console.log(data);
-		            jQuery("#ImageWindow").css("background-image", "url('static/" + data +"')");
+		        success: function(filename) {
+		        	jQuery("#ImageWindow").attr("data-filename", filename);
+		            jQuery("#ImageWindow").css("background-image", "url('static/" + filename +"')");
 		 
 		        }
 		    });
     	});
 
-    	jQuery(".KustumButton").click(function(){
-    		
+    	jQuery("#Detect").click(function(){
+    		var filenameText = jQuery("#ImageWindow").attr("data-filename");
             jQuery.ajax({
-                    type: "POST",                    
-                    url: "detect"
-                    success: function(data) {
-                    	console.log("Detect Worked");
-                    });
-            return false;
-            });
+                type: "POST",
+                url: "detect",   
+                data: {filename : filenameText},
+                success: function(filename) {
+                	jQuery("#ImageWindow").css("background-image", "url('static/" + filename +"')");
+                },
+            });                         
+    	});
+
+    	jQuery("#Catify").click(function(){
+    		var filenameText = jQuery("#ImageWindow").attr("data-filename");
+            jQuery.ajax({
+                type: "POST",
+                url: "cats",   
+                data: {filename : filenameText},
+                success: function(filename) {
+                	jQuery("#ImageWindow").css("background-image", "url('static/" + filename +"')");
+                },
+            });                         
     	});
     });
 
