@@ -19,7 +19,7 @@ catHeight = cat.size[1]*catWidth/cat.size[0]
 cat = cat.resize((int(catWidth),int(catHeight)),Image.BICUBIC)
 """
 file_path = os.getcwd() + "\\static\\"
-cat_path = "testphotos/blackcat.jpg"
+cat_path = "testphotos/blackcat.png"
 catWidth = 60
 
 def LoadImage(filename):
@@ -74,8 +74,8 @@ def CopyOver(image,cat,coordinates):
 
 
 
-		image = image.convert('RGBA')
-		cat = cat.convert('RGBA')
+		#image = image.convert('RGBA')
+		#cat = cat.convert('RGBA')
 		print "MODES"
 		print image.mode
 		print cat.mode
@@ -85,7 +85,7 @@ def CopyOver(image,cat,coordinates):
 		cWhalf = cwidth/2
 		chhalf = cheight/2
 		if x+cwidth < xBound and y+cheight < yBound:
-			image.paste(cat, (x-cWhalf,y-chhalf,cwidth+x-cWhalf,cheight+y-chhalf))
+			image.paste(cat, (x-cWhalf,y-chhalf,cwidth+x-cWhalf,cheight+y-chhalf),cat)
 			#image.paste(cat, cat.getbbox(), cat)
 
 
