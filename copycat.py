@@ -25,6 +25,7 @@ catWidth = 60
 def LoadImage(filename):
 	print "LoadImage"
 	image_path = file_path+filename
+	image_path = image_path.replace('\\','/')
 	image = Image.open(image_path)
 	cat = Image.open(cat_path)
 
@@ -70,7 +71,8 @@ def CopyOver(image,cat,coordinates):
 						pass
 
 	newImage = Image.fromarray(image_array)
-	newImage.show()
+	# Uncomment to debug
+	#newImage.show()
 	tmatch.SaveImage(newImage,"_cats_")
 
 """

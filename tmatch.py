@@ -88,7 +88,8 @@ def DrawFaces(image, matches, template):
 				
 		del draw
 
-	image.show()
+	#uncomment for debugging
+	#image.show()
 	print image_name
 	SaveImage(image, "_faces_")
 	#image.save()
