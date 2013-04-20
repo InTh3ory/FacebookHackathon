@@ -80,14 +80,17 @@ def SepiaFilter(filename):
 	sepia = make_linear_ramp((255,240,192))
 
 	orig_mode = image.mode
-	if orig_mode != "L":
+	if orig_mode != 'L':
 		image = image.convert('L')
 
-	image.putpalette(sepia)
+	print image.mode
 
-	if orig_mode != "L":
+	image.putpalette(sepia)
+	print image.mode
+	if orig_mode != 'L"':
 		image = image.convert(orig_mode)
 
+	print image.mode
 
 	save = tmatch.GetSavePathFromName(filename, '_sepia_')
 	image.show()
@@ -96,9 +99,7 @@ def SepiaFilter(filename):
 	except IOError as e:
 			print e
 			print "trying to strip alpha channel"
-			temp = np.asarray(image)
-			temp = temp.astype('float')
-			image = Image.fromarray(temp)
+			image = image.convert('L')
 			image.save(save)
 
 def make_linear_ramp(colour):
