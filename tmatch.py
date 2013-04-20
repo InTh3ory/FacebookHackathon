@@ -17,6 +17,7 @@ templateWidth = 15
 # Threshold
 threshold = 0.5175
 
+
 def MakePyramid(image, minsize):
 	# Initialize the list where we will store the images and place the original image in it.
 	pyramid = []
@@ -107,24 +108,28 @@ def PruneCoordinates(matches, threshold):
 	return coordinates
 
 
+# Returns the coordinates of anything found
+def GetCoordinates(image_path):
+	#Load image and template. Convert to grey scale (just in case)
+	#im = Image.open("testphotos/students.jpg") 
+	print image_path
+	im = Image.open(image_path) 
+	im.convert('L')
 
-# Script starts here
+	template = Image.open("testphotos/template.jpg")
+	# Resize 
+	templateHeight = template.size[1]*templateWidth/template.size[0]
+	template = template.resize((int(templateWidth),int(templateHeight)),Image.BICUBIC)
 
-#Load image and template. Convert to grey scale (just in case)
-im = Image.open("testphotos/judybats.jpg") 
-im.convert('L')
+	#Create a pyramid of resized images 
+	pyramid = MakePyramid(im,templateWidth)
 
-template = Image.open("testphotos/template.jpg")
-# Resize 
-templateHeight = template.size[1]*templateWidth/template.size[0]
-template = template.resize((int(templateWidth),int(templateHeight)),Image.BICUBIC)
+	coordinates = FindTemplate(pyramid, template, threshold)
 
-#Create a pyramid of resized images 
-pyramid = MakePyramid(im,templateWidth)
+	coordinates = PruneCoordinates(coordinates, templateWidth/2)
+	DrawFaces(im,coordinates,template)
 
-coordinates = FindTemplate(pyramid, template, threshold)
-
-coordinates = PruneCoordinates(coordinates, templateWidth/2)
-DrawFaces(im,coordinates,template)
+	return coordinates
 
 
+#GetCoordinates()
