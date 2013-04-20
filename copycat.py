@@ -3,6 +3,7 @@ import numpy as np
 import math
 from scipy import signal
 from scipy import ndimage
+import ImageFilter
 import scipy.misc
 import tmatch
 import os
@@ -45,25 +46,25 @@ def LoadImage(filename):
 def GaussFilter(filename):
 	path = GetImagePath(filename)
 	image = Image.open(path)
-	gauss_denoised = ndimage.gaussian_filter(image,3)
-	image = Image.fromarray(gauss_denoised)
+	image = image.filter(ImageFilter.BLUR)
 	save = tmatch.GetSavePathFromName(filename, '_blur_')
-	#image.show()
 	image.save(save);
 
 def SharpFilter(filename):
 	path = GetImagePath(filename)
 	image = Image.open(path)
-	
-	blurr = ndimage.gaussian_filter(image,5)
-	filter_blurr = ndimage.gaussian_filter(blurr,1)
-	alpha = 30
-	sharpened = filter_blurr + alpha * (blurr - filter_blurr)
-
-	image = Image.fromarray(sharpened)
+	image = image.filter(ImageFilter.SHARPEN)
 	save = tmatch.GetSavePathFromName(filename, '_sharp_')
 	image.save(save);
-	#image.show()
+
+def EmbossFilter(filename):
+	path = GetImagePath(filename)
+	image = Image.open(path)
+
+	image = image.filter(ImageFilter.EMBOSS)
+
+	save = tmatch.GetSavePathFromName(filename, '_emboss_')
+	image.save(save);
 
 def CopyOver(image,cat,coordinates):
 
@@ -129,6 +130,7 @@ coordinates = tmatch.GetCoordinates(image_path)
 
 CopyOver(image, cat, coordinates)
 """
+EmbossFilter('students.jpg')
 #GaussFilter('students.jpg')
 #SharpFilter('students.jpg')
 #LoadImage('students.jpg')
