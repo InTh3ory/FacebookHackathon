@@ -61,13 +61,22 @@ $def with (form, text, title=None)
   
 <script type="text/javascript">
 	jQuery("#SubmitButton").click(function(){
-		var filename = jQuery("#ISFILEHERE").val();
-    		
-    	
-    	if(filename == "") {
-    			jQuery("#Status").text("Please select an image file to upload.")
-    	} else {
-    		jQuery('form').ajaxForm({
+
+		var isThere = jQuery("#ISFILEHERE").val();
+
+		if(isThere) {
+				jQuery("#RealSubmitButton").click();
+		} else {
+			jQuery("#Status").text("Please upload an image");
+		}
+
+		
+	});
+
+    jQuery(document).ready(function() {
+    	jQuery(".button").click(function() {
+
+            jQuery('form').ajaxForm({
 		        beforeSend: function(){
                 	RAIN = true;
                 	jQuery("#Status").text("Uploading image...");
@@ -83,11 +92,8 @@ $def with (form, text, title=None)
 		 
 		        }
 		    });
-    	}
-            
-	});
+    	});
 
-    
     	jQuery("#Detect").click(function(){
     		var filenameText = jQuery("#ImageWindow").attr("data-filename");
 
@@ -223,7 +229,7 @@ $def with (form, text, title=None)
                 },
             });                         
     	});
-
+    });
 
 
     
