@@ -47,7 +47,9 @@ def GaussFilter(filename):
 	image = Image.open(path)
 	gauss_denoised = ndimage.gaussian_filter(image,3)
 	image = Image.fromarray(gauss_denoised)
-	image.show()
+	save = tmatch.GetSavePathFromName(filename, '_blur_')
+	#image.show()
+	image.save(save);
 
 def SharpFilter(filename):
 	path = GetImagePath(filename)
@@ -59,7 +61,9 @@ def SharpFilter(filename):
 	sharpened = filter_blurr + alpha * (blurr - filter_blurr)
 
 	image = Image.fromarray(sharpened)
-	image.show()
+	save = tmatch.GetSavePathFromName(filename, '_sharp_')
+	image.save(save);
+	#image.show()
 
 def CopyOver(image,cat,coordinates):
 
