@@ -4,8 +4,10 @@ import math
 from scipy import signal
 import tmatch
 
+"""
 image_path = "testphotos/students.jpg"
-cat_path = "testphotos/blackcat.png"
+
+
 catWidth = 60
 
 
@@ -15,6 +17,20 @@ cat = Image.open(cat_path)
 #Resize Cat
 catHeight = cat.size[1]*catWidth/cat.size[0]
 cat = cat.resize((int(catWidth),int(catHeight)),Image.BICUBIC)
+"""
+file_path = "static/"
+cat_path = "testphotos/blackcat.png"
+
+def LoadImage(filename):
+	image = Image.open(file_path+filename)
+	cat = Image.open(cat_path)
+
+	#Resize Cat
+	catHeight = cat.size[1]*catWidth/cat.size[0]
+	cat = cat.resize((int(catWidth),int(catHeight)),Image.BICUBIC)
+
+	coordinates = tmatch.GetCoordinates(image_path)
+	CopyOver(image, cat, coordinates)
 
 def CopyOver(image,cat,coordinates):
 
@@ -54,6 +70,8 @@ def CopyOver(image,cat,coordinates):
 	newImage.show()
 	tmatch.SaveImage(newImage,"_cats_")
 
+"""
 coordinates = tmatch.GetCoordinates(image_path)
 
 CopyOver(image, cat, coordinates)
+"""

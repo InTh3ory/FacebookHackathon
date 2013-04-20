@@ -64,7 +64,8 @@ $def with (form, text, title=None)
 		            jQuery('#results').html('Submitting...');
 		        },
 		        success: function(data) {
-		            alert("success");
+		        	console.log(data);
+		            jQuery("#ImageWindow").css("background-image", "url('static/" + data +"')");
 		 
 		        }
 		    });
