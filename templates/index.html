@@ -38,6 +38,9 @@ $def with (form, text, title=None)
 
 
 		    	</div>
+		    	<div id="Status">
+		    		Welcome to the FaceCat Application
+		    	</div>
 		    	
 	      </div>
 	      <input type="text" id="Console">
@@ -66,6 +69,7 @@ $def with (form, text, title=None)
             jQuery('form').ajaxForm({
 		        beforeSend: function(){
                 	RAIN = true;
+                	jQuery("#Status").text("Uploading image...");
                 },
 		        success: function(filename) {
 		        	RAIN = false;
@@ -74,6 +78,7 @@ $def with (form, text, title=None)
 		            jQuery("#ImageWindow").animate({
 		            	height: 480
 		            }, 1000);
+		            jQuery("#Status").text("Image upload complete");
 		 
 		        }
 		    });
@@ -87,10 +92,12 @@ $def with (form, text, title=None)
                 data: {filename : filenameText},
                 beforeSend: function(){
                 	RAIN = true;
+                	jQuery("#Status").text("Detecting Faces...");
                 },
                 success: function(filename) {
                 	RAIN = false;
                 	jQuery("#ImageWindow").css("background-image", "url('static/" + filename +"')");
+                	jQuery("#Status").text("Face Detection Complete");
                 },
             });                         
     	});
@@ -103,10 +110,12 @@ $def with (form, text, title=None)
                 data: {filename : filenameText},
                 beforeSend: function(){
                 	RAIN = true;
+                	jQuery("#Status").text("Catifying Image...");
                 },
                 success: function(filename) {
                 	RAIN = false;
                 	jQuery("#ImageWindow").css("background-image", "url('static/" + filename +"')");
+                	jQuery("#Status").text("Catify Complete");
                 },
             });                         
     	});
