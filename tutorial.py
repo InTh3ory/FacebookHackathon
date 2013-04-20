@@ -2,27 +2,26 @@ import web
 
 
 urls = (
-	'/(.*)','index',
-    '/upload', 'Upload'
+	'/','index',
+    '/upload', 'upload',
 	)
 
 my_form = web.form.Form(web.form.Textbox('', class_='textfield', id='textfield'), )
 
 class index:
-	def GET(self, name):
+	def GET(self):
 		form = my_form()
 		return render.index(form, "Index")
 
-class Upload:
+class upload:
     def GET(self):
         form = my_form()
-        return render.upload(form, "Hacha")
+        return render.index(form, "")
 
-    def POST(self, test):
-        form = my_form()
-        form.validates()
-        s = form.value['textfield']
-        return make_text(s)
+    def POST(self):
+        x = web.input(myfile={})
+
+        return x['myfile'].filename
 
 
 

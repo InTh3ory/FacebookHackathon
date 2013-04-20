@@ -52,13 +52,94 @@ table {
 
 body {
     margin: 0 auto;
-    width: 1120px;    
+    width: 980px;    
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 12px;       
+    font-size: 12px;    
+    background-image: url("background.jpg");   
+    background-size: cover;
+}
+
+#header {
+   
 }
 
 #content {
     z-index: 1;
+}
+
+#ImageWindow {
+    padding: 10px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    background-image: url("http://wallpaperan.com/wallpaper/cool_backgrounds_wallpaper.jpg");
+    height: 480px;
+    width: 640px;
+    margin: 0 auto;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: 90%;
+    border: 1px solid rgb(100,100,100);
+    border-bottom: 1px solid rgb(200,200,200);
+    background-color: rgb(20,20,20);
+    margin-top: 50px;
+}
+
+#ControlBar {
+    width: 640px;
+    background-color: rgb(20,20,20);
+    padding: 20px;
+    margin: 0 auto;
+    border: 1px solid rgb(100,100,100);
+    border-top: 1px solid rgb(0,0,0);
+    border-radius: 4px;
+    box-shadow: 0px 0px 2px white;
+}
+
+#SubmitButton {
+    display: inline-block;
+    padding: 10px;
+    font-family: 'lucida grande',tahoma,verdana,arial,sans-serif;
+    background-color: rgb(72,98,160);
+    border: 1px solid rgb(20,20,20);
+    color: #fff;
+    font-weight: bold;
+    border-radius: 4px;
+    padding-left: 20px;
+    padding-right: 20px;
+    cursor: pointer;
+    float: right;
+}
+
+#SubmitButton:hover{
+    box-shadow: 0px 0px 2px white;
+    border: 1px solid white;
+
+}
+
+#ProcessButtons{
+
+    margin-top: 20px;
+    padding: 10px;
+    background-color: rgb(60,60,60);
+}
+
+.KustumButton {
+     display: inline-block;
+    padding: 10px;
+    font-family: 'lucida grande',tahoma,verdana,arial,sans-serif;
+    background-color: rgb(72,98,160);
+    border: 1px solid rgb(20,20,20);
+    color: #fff;
+    font-weight: bold;
+    border-radius: 4px;
+    padding-left: 20px;
+    padding-right: 20px;
+    cursor: pointer;
+}
+
+.KustumButton:hover {
+    box-shadow: 0px 0px 2px white;
+    border: 1px solid white;
 }
 
 #canvas-title {
