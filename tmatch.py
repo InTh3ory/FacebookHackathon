@@ -16,6 +16,7 @@ scale = 0.75
 templateWidth = 15
 
 # Threshold
+#threshold = 0.6
 threshold = 0.6
 
 # Path to save images

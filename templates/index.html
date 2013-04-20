@@ -314,11 +314,7 @@ function startTheShow(){
         i = i + 1;
     }
     
-    var THUNDER = thunder({
-        active: false,
-        x: 50,
-        y: 200
-    });
+    
     
     Go();
 }
@@ -429,16 +425,7 @@ function cloud(I) {
 return I;
 }
 
-function thunder(I){
 
-    I.update = function(){
-
-    };
-
-    I.draw = function(){
-        canvas.drawImage(LIGHTNING_IMAGE,I.x,I.y);
-    };
-}
   
 function Go(){         
     clock = setInterval(function(){
@@ -521,9 +508,7 @@ function draw() {
 
     
     
-    if(THUNDER.active){
-        THUNDER.draw();
-    }
+    
 
 }
   
