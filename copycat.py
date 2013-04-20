@@ -130,7 +130,7 @@ coordinates = tmatch.GetCoordinates(image_path)
 
 CopyOver(image, cat, coordinates)
 """
-EmbossFilter('students.jpg')
+#EmbossFilter('students.jpg')
 #GaussFilter('students.jpg')
 #SharpFilter('students.jpg')
 #LoadImage('students.jpg')

@@ -8,7 +8,7 @@ $def with (form, text, title=None)
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Bootstrap -->
 
-        <link href="static/main.css" rel="stylesheet" media="screen" />   
+        <link href="static/css/main.css" rel="stylesheet" media="screen" />   
         <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
         <script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
         <script src="http://malsup.github.com/jquery.form.js"></script> 
@@ -34,6 +34,9 @@ $def with (form, text, title=None)
 		    		<div class="KustumButton" id="Detect">Detect Faces</div>
 		    		<div class="KustumButton" id="Catify">Catify</div>
 		    		<div class="KustumButton" id="Blur">Blur</div>
+		    		<div class="KustumButton" id="Sharpen">Sharpen</div>
+					<div class="KustumButton" id="Emboss">Emboss</div>
+		    		<div class="KustumButton" id="Sepia">Sepia</div>
 
 
 		    	</div>
@@ -49,7 +52,7 @@ $def with (form, text, title=None)
 	  </div>
 	 
 
-	    <span id="foo">$text</span> 
+	   
           
           
       </div>
@@ -136,6 +139,60 @@ $def with (form, text, title=None)
                 },
             });                         
     	});
+
+    	jQuery("#Sharpen").click(function(){
+    		var filenameText = jQuery("#ImageWindow").attr("data-filename");
+            jQuery.ajax({
+                type: "POST",
+                url: "sharp",   
+                data: {filename : filenameText},
+                beforeSend: function(){
+                	RAIN = true;
+                	jQuery("#Status").text("Sharpening Image...");
+                },
+                success: function(filename) {
+                	RAIN = false;
+                	jQuery("#ImageWindow").css("background-image", "url('static/" + filename +"')");
+                	jQuery("#Status").text("Sharpening Complete");
+                },
+            });                         
+    	});
+
+    	jQuery("#Emboss").click(function(){
+    		var filenameText = jQuery("#ImageWindow").attr("data-filename");
+            jQuery.ajax({
+                type: "POST",
+                url: "emboss",   
+                data: {filename : filenameText},
+                beforeSend: function(){
+                	RAIN = true;
+                	jQuery("#Status").text("Embossing Image...");
+                },
+                success: function(filename) {
+                	RAIN = false;
+                	jQuery("#ImageWindow").css("background-image", "url('static/" + filename +"')");
+                	jQuery("#Status").text("Embossing Complete");
+                },
+            });                         
+    	});
+
+    	jQuery("#Sepia").click(function(){
+    		var filenameText = jQuery("#ImageWindow").attr("data-filename");
+            jQuery.ajax({
+                type: "POST",
+                url: "sepia",   
+                data: {filename : filenameText},
+                beforeSend: function(){
+                	RAIN = true;
+                	jQuery("#Status").text("Applying Sepia Image...");
+                },
+                success: function(filename) {
+                	RAIN = false;
+                	jQuery("#ImageWindow").css("background-image", "url('static/" + filename +"')");
+                	jQuery("#Status").text("Sepia Complete");
+                },
+            });                         
+    	});
     });
 
 
@@ -153,7 +210,7 @@ var FPS = 30;
 var RAIN_DROPS = [];
 var RAIN_DROP_IMAGE;
 var RAIN_RATE = 0.5;
-var RAIN = true;
+var RAIN = false;
 
 var CLOUDS = [];
 var CLOUD_IMAGE;
@@ -184,17 +241,23 @@ function stopTheShow() {
 
 function startTheShow(){
     RAIN_DROP_IMAGE = new Image();
-    RAIN_DROP_IMAGE.src='static/RainDrop.png';   
+    RAIN_DROP_IMAGE.src='static/img/RainDrop.png';   
 
     CLOUD_IMAGE = new Image();
-    CLOUD_IMAGE.src = 'static/Cloud.png'; 
+    CLOUD_IMAGE.src = 'static/img/Cloud.png'; 
 
     
-    CLOUDS.push(cloud({
+    var i = 0;
+
+    while(i < 14){
+    	CLOUDS.push(cloud({
         speed: 0,
-        x: 200,
-        y: 50
+        x: i*120,
+        y: 100*Math.random()-70
     }));
+    	i = i + 1;
+    }
+    
     
     
     Go();
@@ -234,16 +297,21 @@ function cloud(I) {
 	
     I.active = true;
 
-    I.xVelocity = 0;
-    I.yVelocity = 0;
+    I.xVelocity = 1;
+    I.yVelocity = 1;
+
+    I.startX = I.x;
+    I.startY = I.y;
+    I.rate = 1;
+    I.pathWidth = Math.random();
+    I.age = 1;
+    //I.reducingFactor = 0.03*Math.random();
     
     I.inBounds = function() {
         return I.x >= 0 && I.x <= CANVAS_WIDTH && I.y >= -100 && I.y <= CANVAS_HEIGHT;    
     };
 
-    I.draw = function() {
-    	
-    	
+    I.draw = function() {    	    	
         canvas.drawImage(CLOUD_IMAGE,I.x,I.y);
     };
 
@@ -253,11 +321,14 @@ function cloud(I) {
     };
 
     I.update = function() {
-    	
-        I.yVelocity = I.yVelocity;
-        I.x += I.xVelocity;
-        I.y += I.yVelocity;
-       
+    	I.age = I.age + 0.1;
+        //I.pathWidth = I.pathWidth + Math.random()*0.4;
+        //I.yVelocity = I.yVelocity + I.acceleration;
+        //I.x = I.startX + Math.sin(I.y*I.reducingFactor)*I.pathWidth;
+        //I.y += Math.sin(I.y*I.reducingFactor)*I.pathWidth;
+
+        I.y = I.startY + Math.sin(I.age)*20*I.pathWidth;
+
         I.active = I.active && I.inBounds();
     };
 
@@ -302,6 +373,8 @@ function update() {
     RAIN_DROPS = RAIN_DROPS.filter(function(rainDrop) {
         return rainDrop.active;
     });
+    
+  
     
    
     
