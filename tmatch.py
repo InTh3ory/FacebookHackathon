@@ -156,6 +156,9 @@ def GetCoordinates(image_path):
 	coordinates = PruneCoordinates(coordinates, templateWidth/2)
 	DrawFaces(im,coordinates,template)
 
+	print "coord scale value:"
+	print coordinates[0]
+
 	return coordinates
 
 
