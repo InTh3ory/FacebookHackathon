@@ -1,0 +1,200 @@
+$def with (form, text, title=None)
+<!DOCTYPE html>
+<html>
+    <head>
+        
+        <link rel="shortcut icon" href="fav.ico" />
+        <title>Jason Roett</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Bootstrap -->
+
+        <link href="static/main.css" rel="stylesheet" media="screen" />   
+        <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+        <script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
+        <script src="http://malsup.github.com/jquery.form.js"></script> 
+    
+    </head>
+  <body>
+      <div id="canvas-container"></div>  
+      <div id="header">
+      		I'm the header
+      </div>
+      <div id="content">  
+
+      <div id="Wrapper">
+	      <div id="ImageWindow">
+	      
+	      </div>
+
+	      <div id="ControlBar">
+      			<form class="form" method="post" action="upload" enctype="multipart/form-data"> 
+		    		<input type="file" name="myfile" style="color: white; font-size: 18px;">
+		    		<input id="RealSubmitButton" class="button" type="submit" value="send" style="display: none;"/>  
+		    		<div id="SubmitButton">Upload</div>
+		    	</form>
+		    	<div id="ProcessButtons">
+		    		<div class="KustumButton">Detect Faces</div>
+
+
+		    	</div>
+		    	
+	      </div>
+     
+	  </div>
+	 
+
+	    <span id="foo">$text</span> 
+          
+          
+      </div>
+       
+  </body>
+  
+<script type="text/javascript">
+	jQuery("#SubmitButton").click(function(){
+		jQuery("#RealSubmitButton").click();
+	});
+
+    jQuery(document).ready(function() {
+    	jQuery(".button").click(function() {
+            
+
+            jQuery('form').ajaxForm({
+		        beforeSubmit: function() {
+		            jQuery('#results').html('Submitting...');
+		        },
+		        success: function(data) {
+		        	console.log(data);
+		            jQuery("#ImageWindow").css("background-image", "url('static/" + data +"')");
+		 
+		        }
+		    });
+    	});
+    });
+
+
+    
+
+
+
+
+
+var CANVAS_WIDTH = Math.round(jQuery(window).width());
+var CANVAS_HEIGHT = Math.round(jQuery(window).height());
+
+var FPS = 30;
+
+var RAIN_DROPS = [];
+var RAIN_DROP_IMAGE;
+var RAIN_RATE = 0.2;
+var RAIN = true;
+
+var clock;
+
+var canvasElement = jQuery("<canvas style='overflow: hidden;' width='" + CANVAS_WIDTH + "' height='" + CANVAS_HEIGHT + "'></canvas>");
+var canvas = canvasElement.get(0).getContext("2d");
+canvasElement.appendTo('#canvas-container');
+
+jQuery("#canvas-container").css("overflow", "hidden");
+
+startTheShow();
+
+jQuery("#canvas-title").click(function(){
+    jQuery(this).animate({
+        opacity: 0
+    });
+    stopTheShow()
+    
+});
+
+function stopTheShow() {
+    canvas.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    window.clearInterval(clock);
+}
+
+function startTheShow(){
+    RAIN_DROP_IMAGE = new Image();
+    RAIN_DROP_IMAGE.src='static/RainDrop.png';    
+    
+    Go();
+}
+  
+function rainDrop(I) {
+    I.active = true;
+
+    I.xVelocity = 0;
+    I.yVelocity = 0;
+    
+    I.inBounds = function() {
+        return I.x >= 0 && I.x <= CANVAS_WIDTH && I.y >= -100 && I.y <= CANVAS_HEIGHT;    
+    };
+
+    I.draw = function() {
+        canvas.drawImage(RAIN_DROP_IMAGE,I.x,I.y);
+    };
+
+    I.explode = function() {
+    this.active = false;
+    // Extra Credit: Add an explosion graphic
+    };
+
+    I.update = function() {
+        I.yVelocity = I.yVelocity + I.acceleration;
+        I.x += I.xVelocity;
+        I.y += I.yVelocity;
+
+        I.active = I.active && I.inBounds();
+    };
+
+return I;
+}
+
+
+  
+function Go(){         
+    clock = setInterval(function(){
+        update();
+        draw();        
+    }, 1000/FPS)     
+}   
+
+function update() {
+   
+      
+    if(Math.random() < RAIN_RATE && RAIN){
+        RAIN_DROPS.push(rainDrop({
+            speed: 0,
+            acceleration: 0.3 + Math.random()*0.5,
+            x: Math.random()*CANVAS_WIDTH,
+            y: -50
+        }));
+    }
+    
+    RAIN_DROPS.forEach(function(rainDrop){
+        rainDrop.update();
+    });
+
+    RAIN_DROPS = RAIN_DROPS.filter(function(rainDrop) {
+        return rainDrop.active;
+    });
+    
+    
+}
+    
+function draw() {
+    canvas.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    
+    RAIN_DROPS.forEach(function(rainDrop) {
+        rainDrop.draw();
+    });
+    
+    
+}
+  
+  
+  
+  
+  
+
+</script>
+</html>
