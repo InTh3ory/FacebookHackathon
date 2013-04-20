@@ -9,6 +9,7 @@ import os
 urls = (
 	'/','index',
     '/upload', 'upload',
+    '/detect', 'detect'
 	)
 
 my_form = web.form.Form(web.form.Textbox('', class_='textfield', id='textfield'), )
@@ -17,6 +18,17 @@ class index:
 	def GET(self):
 		form = my_form()
 		return render.index(form, "Index")
+
+class detect:
+    def GET(self):
+        form = my_form()
+        return render.index(form, "Index")
+
+    def POST(self):
+        print "Detect - Post"
+        user_input = web.input();
+        print "hello"
+
 
 class upload:
     def GET(self):
@@ -28,7 +40,7 @@ class upload:
         x = web.input(myfile={})
         filename = x['myfile'].filename
 
-        currentDir = os.getcwd() + "\\static\\"
+        currentDir = os.getcwd() + "/static/"
         filedir = currentDir # change this to the directory you want to store the file in.
         if 'myfile' in x: # to check if the file-object is created
             filepath=x.myfile.filename.replace('\\','/') # replaces the windows-style slashes with linux ones.

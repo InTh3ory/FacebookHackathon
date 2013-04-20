@@ -70,6 +70,18 @@ $def with (form, text, title=None)
 		        }
 		    });
     	});
+
+    	jQuery(".KustumButton").click(function(){
+    		
+            jQuery.ajax({
+                    type: "POST",                    
+                    url: "detect"
+                    success: function(data) {
+                    	console.log("Detect Worked");
+                    });
+            return false;
+            });
+    	});
     });
 
 
