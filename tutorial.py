@@ -13,6 +13,7 @@ urls = (
     '/cats', 'cats',
     '/blur', 'blur',
     '/sharpen', 'sharpen',
+    '/emboss', 'emboss',
     '/sepia', 'sepia',
 	)
 
@@ -39,6 +40,40 @@ class blur:
 
         print name + "_blur_" + extension
         return name + "_blur_" + extension 
+
+class sharp:
+    def GET(self):
+        form = my_form()
+        return render.index(form, "Index")
+
+    def POST(self):
+        user_input = web.input();   
+        filename = user_input.filename
+
+        copycat.SharpFilter(filename)
+
+        name = os.path.splitext(filename)[0]
+        extension = os.path.splitext(filename)[1]
+
+        print name + "_sharp_" + extension
+        return name + "_sharp_" + extension 
+
+class emboss:
+    def GET(self):
+        form = my_form()
+        return render.index(form, "Index")
+
+    def POST(self):
+        user_input = web.input();   
+        filename = user_input.filename
+
+        copycat.EmbossFilter(filename)
+
+        name = os.path.splitext(filename)[0]
+        extension = os.path.splitext(filename)[1]
+
+        print name + "_emboss_" + extension
+        return name + "_emboss_" + extension
 
 class cats:
     def GET(self):
