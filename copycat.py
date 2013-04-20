@@ -28,7 +28,7 @@ file_path = os.getcwd() + "\\static\\"
 cats = []
 cats.append("testphotos/grumpycat.png")
 cats.append("testphotos/hipcat.png")
-cats.append("testphotos/restoration.png")
+#cats.append("testphotos/restoration.png")
 #cat_path = "testphotos/grumpycat.png"
 catWidth = 90
 
@@ -54,7 +54,7 @@ def LoadImage(filename):
 	CopyOver(image, cat, coordinates)
 
 def getRandomCat():
-	index = random.randint(0,2)
+	index = random.randint(0,1)
 	return cats[index]
 
 
@@ -172,7 +172,7 @@ def CopyOver(image,cat,coordinates):
 		cWhalf = cwidth/2
 		chhalf = cheight/2
 		if x+cwidth < xBound and y+cheight < yBound:
-			image.paste(cat, (x-cWhalf,y-chhalf,cwidth+x-cWhalf,cheight+y-chhalf),cat)
+			image.paste(cat, (x-cWhalf,y-chhalf,cwidth+x-cWhalf,cheight+y-chhalf),cat) 
 		
 		del draw
 
