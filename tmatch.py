@@ -90,7 +90,7 @@ def DrawFaces(image, matches, template):
 		del draw
 
 	#uncomment for debugging
-	image.show()
+	#image.show()
 	print image_name
 	SaveImage(image, "_faces_")
 	#image.save()
@@ -137,7 +137,7 @@ def GetCoordinates(image_path):
 	#im = Image.open("testphotos/students.jpg") 
 	print image_path
 	im = Image.open(image_path) 
-	im.convert('L')
+	im.convert('RGB')
 
 	# Keep track of image name so we can use it later
 	global image_name

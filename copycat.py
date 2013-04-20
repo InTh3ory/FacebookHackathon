@@ -19,7 +19,7 @@ catHeight = cat.size[1]*catWidth/cat.size[0]
 cat = cat.resize((int(catWidth),int(catHeight)),Image.BICUBIC)
 """
 file_path = os.getcwd() + "\\static\\"
-cat_path = "testphotos/blackcat.png"
+cat_path = "testphotos/blackcat.jpg"
 catWidth = 60
 
 def LoadImage(filename):
@@ -65,12 +65,28 @@ def CopyOver(image,cat,coordinates):
 		print ("BOUNDS:",xBound,yBound)
 		#if coordinates[q][2] == 1:
 
+		print image.size
+		print cat.size
+
 		s = coordinates[q][2]
 		
 		draw = ImageDraw.Draw(image)
 
-		i,j = cat.size
-		image.paste(cat, (x,y,i,j))
+
+
+		image = image.convert('RGBA')
+		cat = cat.convert('RGBA')
+		print "MODES"
+		print image.mode
+		print cat.mode
+
+
+		cwidth,cheight = cat.size
+		if x+cwidth < xBound and y+cheight < yBound:
+			#image.paste(cat, (x,y,cwidth,cheight))
+			image.paste(cat, cat.getbbox(), cat)
+
+
 
 		"""x1 = coordinates[q][0] + 30/2*s
 		x2 = coordinates[q][0] - 30/2*s
@@ -83,6 +99,7 @@ def CopyOver(image,cat,coordinates):
 		draw.line((x1,y1,x1,y2),fill="green",width=2)
 		draw.line((x2,y1,x2,y2),fill="green",width=2)"""
 				
+		
 		del draw
 
 		"""for i in range(10):
@@ -110,8 +127,8 @@ def CopyOver(image,cat,coordinates):
 	newImage = Image.fromarray(image_array)
 	# Uncomment to debug
 	#newImage.show()
-	image.show()
-	tmatch.SaveImage(newImage,"_cats_")
+	#image.show()
+	tmatch.SaveImage(image,"_cats_")
 
 """
 coordinates = tmatch.GetCoordinates(image_path)
@@ -119,4 +136,4 @@ coordinates = tmatch.GetCoordinates(image_path)
 CopyOver(image, cat, coordinates)
 """
 
-LoadImage('students.jpg')
+#LoadImage('students.jpg')
