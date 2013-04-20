@@ -103,13 +103,19 @@ class detect:
         user_input = web.input();   
         filename = user_input.filename
 
-        copycat.LoadImage(filename)
-
         name = os.path.splitext(filename)[0]
         extension = os.path.splitext(filename)[1]
 
-        
-        return name + "_faces_" + extension 
+        newname = name + "_faces_" + extension 
+
+        print newname
+        print 'static/'+newname
+        _dir = os.getcwd()
+
+        if not os.path.isfile(_dir + '/static/'+newname) :
+            copycat.LoadImage(filename)
+
+        return newname
 
 
 class upload:
