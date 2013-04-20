@@ -111,6 +111,16 @@ def SaveImage(image, type):
 	print "Saving: " + savename
 	image.save(savename)
 
+def GetSavePathFromName(image_path, type):
+	print "Entering SaveImage"
+	#sub1 = 'static/'
+	sub2 = image_path[0:image_path.index('.')]	
+	sub3 = type
+	sub4 = image_path[image_path.index('.'):len(image_path)]	
+	savename = file_path+sub2+sub3+sub4
+	print "Saving: " + savename
+	return savename
+
 def PruneCoordinates(matches, threshold):
 	coordinates = []
 	checked = []
