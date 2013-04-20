@@ -28,7 +28,7 @@ $def with (form, text, title=None)
 
 	      <div id="ControlBar">
       			<form class="form" method="post" action="upload" enctype="multipart/form-data"> 
-		    		<input type="file" name="myfile" style="color: white; font-size: 18px;">
+		    		<input type="file" name="myfile" style="color: #777; font-size: 18px;">
 		    		<input id="RealSubmitButton" class="button" type="submit" value="send" style="display: none;"/>  
 		    		<div id="SubmitButton">Upload</div>
 		    	</form>
@@ -40,6 +40,9 @@ $def with (form, text, title=None)
 		    	</div>
 		    	
 	      </div>
+	      <input type="text" id="Console">
+	      	
+	      </input>
      
 	  </div>
 	 
@@ -61,12 +64,16 @@ $def with (form, text, title=None)
             
 
             jQuery('form').ajaxForm({
-		        beforeSubmit: function() {
-		            
-		        },
+		        beforeSend: function(){
+                	RAIN = true;
+                },
 		        success: function(filename) {
+		        	RAIN = false;
 		        	jQuery("#ImageWindow").attr("data-filename", filename);
 		            jQuery("#ImageWindow").css("background-image", "url('static/" + filename +"')");
+		            jQuery("#ImageWindow").animate({
+		            	height: 480
+		            }, 1000);
 		 
 		        }
 		    });
@@ -78,7 +85,11 @@ $def with (form, text, title=None)
                 type: "POST",
                 url: "detect",   
                 data: {filename : filenameText},
+                beforeSend: function(){
+                	RAIN = true;
+                },
                 success: function(filename) {
+                	RAIN = false;
                 	jQuery("#ImageWindow").css("background-image", "url('static/" + filename +"')");
                 },
             });                         
@@ -90,7 +101,11 @@ $def with (form, text, title=None)
                 type: "POST",
                 url: "cats",   
                 data: {filename : filenameText},
+                beforeSend: function(){
+                	RAIN = true;
+                },
                 success: function(filename) {
+                	RAIN = false;
                 	jQuery("#ImageWindow").css("background-image", "url('static/" + filename +"')");
                 },
             });                         
@@ -111,8 +126,8 @@ var FPS = 30;
 
 var RAIN_DROPS = [];
 var RAIN_DROP_IMAGE;
-var RAIN_RATE = 0.2;
-var RAIN = true;
+var RAIN_RATE = 0.5;
+var RAIN = false;
 
 var clock;
 

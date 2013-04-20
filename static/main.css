@@ -60,7 +60,7 @@ body {
 }
 
 #header {
-   
+
 }
 
 #content {
@@ -72,27 +72,27 @@ body {
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
     
-    height: 480px;
+    height: 0px;
     width: 640px;
     margin: 0 auto;
     background-repeat: no-repeat;
     background-position: 50% 50%;
     background-size: 90%;
-    border: 1px solid rgb(100,100,100);
-    border-bottom: 1px solid rgb(200,200,200);
-    background-color: rgb(20,20,20);
+    border: 1px solid rgb(200,200,200);
+    border-bottom: 1px solid #E3E4E7;
+    background-color: white;
     margin-top: 50px;
 }
 
 #ControlBar {
     width: 640px;
-    background-color: rgb(20,20,20);
+    background-color: #F6F7F8;
     padding: 20px;
     margin: 0 auto;
-    border: 1px solid rgb(100,100,100);
-    border-top: 1px solid rgb(0,0,0);
+    border: 1px solid rgb(200,200,200);
+    border-top: 1px solid #D3D4D7;
     border-radius: 4px;
-    box-shadow: 0px 0px 2px white;
+    
 }
 
 #SubmitButton {
@@ -100,7 +100,7 @@ body {
     padding: 10px;
     font-family: 'lucida grande',tahoma,verdana,arial,sans-serif;
     background-color: rgb(72,98,160);
-    border: 1px solid rgb(20,20,20);
+    border: 1px solid #475D91;
     color: #fff;
     font-weight: bold;
     border-radius: 4px;
@@ -111,16 +111,17 @@ body {
 }
 
 #SubmitButton:hover{
-    box-shadow: 0px 0px 2px white;
-    border: 1px solid white;
+    box-shadow: 0px 0px 2px #475D91;
+    border: 1px solid #475D91;
 
 }
 
 #ProcessButtons{
-
+    background-color: rgb(240,240,240);
     margin-top: 20px;
     padding: 10px;
-    background-color: rgb(60,60,60);
+    border: 1px solid rgb(200,200,200);
+    
 }
 
 .KustumButton {
@@ -128,18 +129,32 @@ body {
     padding: 10px;
     font-family: 'lucida grande',tahoma,verdana,arial,sans-serif;
     background-color: rgb(72,98,160);
-    border: 1px solid rgb(20,20,20);
+    border: 1px solid #475D91;
     color: #fff;
     font-weight: bold;
     border-radius: 4px;
     padding-left: 20px;
     padding-right: 20px;
     cursor: pointer;
+    margin-right: 40px;
 }
 
-.KustumButton:hover {
-    box-shadow: 0px 0px 2px white;
-    border: 1px solid white;
+.KustumButton:hover{
+    box-shadow: 0px 0px 3px #475D91;
+    border: 1px solid #475D91;
+
+}
+
+#Console {
+    display: none;
+    width: 640px;
+    padding: 20px;
+    background-color: black;
+    margin: 0 auto;
+    border-radius: 2px;
+    margin-top: 20px;
+    font-size: 18px;
+    color: rgb(115,255,16);
 }
 
 #canvas-title {
