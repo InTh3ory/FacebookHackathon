@@ -3,7 +3,7 @@ import numpy as np
 import math
 from scipy import signal
 import tmatch
-
+import os
 """
 image_path = "testphotos/students.jpg"
 
@@ -18,12 +18,12 @@ cat = Image.open(cat_path)
 catHeight = cat.size[1]*catWidth/cat.size[0]
 cat = cat.resize((int(catWidth),int(catHeight)),Image.BICUBIC)
 """
-file_path = "static/"
+file_path = os.getcwd() + "\\static\\"
 cat_path = "testphotos/blackcat.png"
 catWidth = 60
 
 def LoadImage(filename):
-
+	print "LoadImage"
 	image_path = file_path+filename
 	image = Image.open(image_path)
 	cat = Image.open(cat_path)

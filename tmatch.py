@@ -129,7 +129,7 @@ def PruneCoordinates(matches, threshold):
 
 
 # Returns the coordinates of anything found
-def GetCoordinates(image_path):
+def GetCoordinates(image_path):	
 	#Load image and template. Convert to grey scale (just in case)
 	#im = Image.open("testphotos/students.jpg") 
 	print image_path
@@ -138,7 +138,7 @@ def GetCoordinates(image_path):
 
 	# Keep track of image name so we can use it later
 	global image_name
-	image_name = image_path[image_path.index('/')+1:len(image_path)]
+	image_name = image_path.split('/')[-1]
 	
 	template = Image.open("testphotos/template.jpg")
 	# Resize 
