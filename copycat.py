@@ -2,7 +2,8 @@ from PIL import Image, ImageDraw
 import numpy as np
 import math
 from scipy import signal
-from scipy import misc
+from scipy import ndimage
+import scipy.misc
 import tmatch
 import os
 """
@@ -40,6 +41,25 @@ def LoadImage(filename):
 
 	coordinates = tmatch.GetCoordinates(image_path)
 	CopyOver(image, cat, coordinates)
+
+def GaussFilter(filename):
+	path = GetImagePath(filename)
+	image = Image.open(path)
+	gauss_denoised = ndimage.gaussian_filter(image,2)
+	image = Image.fromarray(gauss_denoised)
+	image.show()
+
+def SharpFilter(filename):
+	path = GetImagePath(filename)
+	image = Image.open(path)
+	
+	blurr = ndimage.gaussian_filter(image,5)
+	filter_blurr = ndimage.gaussian_filter(blurr,1)
+	alpha = 30
+	sharpened = filter_blurr + alpha * (blurr - filter_blurr)
+
+	image = Image.fromarray(sharpened)
+	image.show()
 
 def CopyOver(image,cat,coordinates):
 
@@ -106,4 +126,5 @@ coordinates = tmatch.GetCoordinates(image_path)
 CopyOver(image, cat, coordinates)
 """
 
+SharpFilter('students.jpg')
 #LoadImage('students.jpg')
