@@ -22,7 +22,7 @@ catHeight = cat.size[1]*catWidth/cat.size[0]
 cat = cat.resize((int(catWidth),int(catHeight)),Image.BICUBIC)
 """
 file_path = os.getcwd() + "\\static\\"
-cat_path = "testphotos/hipcat.png"
+cat_path = "testphotos/restoration.png"
 catWidth = 90
 
 def GetImagePath(filename):
@@ -65,6 +65,46 @@ def EmbossFilter(filename):
 
 	save = tmatch.GetSavePathFromName(filename, '_emboss_')
 	image.save(save);
+
+
+"""
+	Sepia filter based off of Mike Griffith's blog:
+	http://www.mike-griffith.com/blog/2010/01/batch-convert-images-to-sepia-tone-with-python/
+"""
+def SepiaFilter(filename):
+	path = GetImagePath(filename)
+	image = Image.open(path)
+
+	sepia = make_linear_ramp((255,240,192))
+
+	orig_mode = image.mode
+	if orig_mode != "L":
+		image = image.convert('L')
+
+	image.putpalette(sepia)
+
+	if orig_mode != "L":
+		image = image.convert(orig_mode)
+
+
+	save = tmatch.GetSavePathFromName(filename, '_sepia_')
+	image.show()
+	try:
+		image.save(save);
+	except IOError as e:
+			print e
+			print "trying to strip alpha channel"
+			temp = np.asarray(image)
+			temp = temp.astype('float')
+			image = Image.fromarray(temp)
+			image.save(save)
+
+def make_linear_ramp(colour):
+	ramp = []
+	r,g,b = colour
+	for i in range(255):
+		ramp.extend((r*i/255, g*i/255, b*i/255))
+	return ramp
 
 def CopyOver(image,cat,coordinates):
 
@@ -130,6 +170,10 @@ coordinates = tmatch.GetCoordinates(image_path)
 
 CopyOver(image, cat, coordinates)
 """
+
+
+#SepiaFilter('judybats.jpg')
+
 #EmbossFilter('students.jpg')
 #GaussFilter('students.jpg')
 #SharpFilter('students.jpg')
