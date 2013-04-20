@@ -21,7 +21,7 @@ threshold = 0.5175
 global static
 #global image_name
 
-static = "static/"
+
 #image_name = "unamed"
 
 def MakePyramid(image, minsize):
@@ -96,11 +96,11 @@ def DrawFaces(image, matches, template):
 # param1 = image to save
 # param2 = string of type of modification made
 def SaveImage(image, type):
-	sub1 = 'static/'
+	#sub1 = 'static/'
 	sub2 = image_name[0:image_name.index('.')]	
 	sub3 = type
 	sub4 = image_name[image_name.index('.'):len(image_name)]	
-	savename = sub1+sub2+sub3+sub4
+	savename = sub2+sub3+sub4
 	print savename
 	image.save(savename)
 
