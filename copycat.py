@@ -18,7 +18,7 @@ cat = Image.open(cat_path)
 catHeight = cat.size[1]*catWidth/cat.size[0]
 cat = cat.resize((int(catWidth),int(catHeight)),Image.BICUBIC)
 """
-file_path = os.getcwd() + "/static/"
+file_path = os.getcwd() + "\\static\\"
 cat_path = "testphotos/blackcat.png"
 catWidth = 60
 
@@ -38,28 +38,64 @@ def LoadImage(filename):
 
 def CopyOver(image,cat,coordinates):
 
-	image_array = np.asarray(image)
-	cat_array = np.asarray(cat)
+	#image_array = np.asarray(image)
+	#cat_array = np.asarray(cat)
 
-	xBound = image.size[0]
-	yBound = image.size[1]
+	image_array = np.array(image)
+	cat_array = np.array(cat)
 
-	image_array.flags.writeable = True
-
-	print (cat_array[1][1][0])
+	#xBound = image.size[0]
+	#yBound = image.size[1]
+	xBound = image_array.shape[0]
+	yBound = image_array.shape[1]
+	#image_array.flags.writeable = True
 
 	for q in range(len(coordinates)):
 		#x = int(round(coordinates[q][0] - cat.size[0]*coordinates[q][2],0))
 		#y = int(round(coordinates[q][1] - cat.size[1]*coordinates[q][2],0))
 
-		x = coordinates[q][0]
-		y = coordinates[q][1]
+		x = int(round(coordinates[q][0]))
+		y = int(round(coordinates[q][1]))
+
+		#x = coordinates[q][0]
+		#y = coordinates[q][1]
+
+		print coordinates[q]
+		print (x,y,coordinates[q][2])
+		print ("BOUNDS:",xBound,yBound)
+		#if coordinates[q][2] == 1:
+
+		s = coordinates[q][2]
+		
+		draw = ImageDraw.Draw(image)
+
+		i,j = cat.size
+		image.paste(cat, (x,y,i,j))
+
+		"""x1 = coordinates[q][0] + 30/2*s
+		x2 = coordinates[q][0] - 30/2*s
+		y1 = coordinates[q][1] + 30/2*s
+		y2 = coordinates[q][1] - 30/2*s
+		
+		# Then we use them to draw a green rectangle around the point.
+		draw.line((x1,y1,x2,y1),fill="green",width=2)
+		draw.line((x1,y2,x2,y2),fill="green",width=2)
+		draw.line((x1,y1,x1,y2),fill="green",width=2)
+		draw.line((x2,y1,x2,y2),fill="green",width=2)"""
+				
+		del draw
+
+		"""for i in range(10):
+			for j in range(10):
+				if (x+i >= 0 and y+j >= 0) and (x+i < xBound and y+j < yBound) :
+					print ("HERE: ",x+i,y+j,image_array[x+i][y+j])
+					image_array[x+i][y+j] = 200"""
 
 		#for i in range(cat.size[0]):
-		for i in range(cat_array.shape[0]):
+		"""for i in range(cat_array.shape[0]):
 			#for j in range(cat.size[1]):
 			for j in range(cat_array.shape[1]):
-				if (x >= 0 and y >= 0) and (x+i < xBound and y+j < yBound) :
+				if (x+i >= 0 and y+j >= 0) and (x+i < xBound and y+j < yBound) :
 					#print cat_array[i][j]
 					#print image_array[i][j]
 					#image_array[x+i][y+j] = cat_array[i][j][0]
@@ -68,11 +104,13 @@ def CopyOver(image,cat,coordinates):
 					except IndexError as e:
 						print e
 						print cat_array[i][j]
-						pass
+						pass"""
+
 
 	newImage = Image.fromarray(image_array)
 	# Uncomment to debug
 	#newImage.show()
+	image.show()
 	tmatch.SaveImage(newImage,"_cats_")
 
 """
@@ -80,3 +118,5 @@ coordinates = tmatch.GetCoordinates(image_path)
 
 CopyOver(image, cat, coordinates)
 """
+
+LoadImage('students.jpg')
