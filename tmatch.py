@@ -17,6 +17,13 @@ templateWidth = 15
 # Threshold
 threshold = 0.5175
 
+# Path to save images
+global static
+#global image_name
+
+static = "static/"
+#image_name = "unamed"
+
 def MakePyramid(image, minsize):
 	# Initialize the list where we will store the images and place the original image in it.
 	pyramid = []
@@ -82,6 +89,20 @@ def DrawFaces(image, matches, template):
 		del draw
 
 	image.show()
+	print image_name
+	SaveImage(image, "_faces_")
+	#image.save()
+
+# param1 = image to save
+# param2 = string of type of modification made
+def SaveImage(image, type):
+	sub1 = 'static/'
+	sub2 = image_name[0:image_name.index('.')]	
+	sub3 = type
+	sub4 = image_name[image_name.index('.'):len(image_name)]	
+	savename = sub1+sub2+sub3+sub4
+	print savename
+	image.save(savename)
 
 def PruneCoordinates(matches, threshold):
 	coordinates = []
@@ -107,24 +128,32 @@ def PruneCoordinates(matches, threshold):
 	return coordinates
 
 
+# Returns the coordinates of anything found
+def GetCoordinates(image_path):
+	#Load image and template. Convert to grey scale (just in case)
+	#im = Image.open("testphotos/students.jpg") 
+	print image_path
+	im = Image.open(image_path) 
+	im.convert('L')
 
-# Script starts here
+	# Keep track of image name so we can use it later
+	global image_name
+	image_name = image_path[image_path.index('/')+1:len(image_path)]
+	
+	template = Image.open("testphotos/template.jpg")
+	# Resize 
+	templateHeight = template.size[1]*templateWidth/template.size[0]
+	template = template.resize((int(templateWidth),int(templateHeight)),Image.BICUBIC)
 
-#Load image and template. Convert to grey scale (just in case)
-im = Image.open("testphotos/judybats.jpg") 
-im.convert('L')
+	#Create a pyramid of resized images 
+	pyramid = MakePyramid(im,templateWidth)
 
-template = Image.open("testphotos/template.jpg")
-# Resize 
-templateHeight = template.size[1]*templateWidth/template.size[0]
-template = template.resize((int(templateWidth),int(templateHeight)),Image.BICUBIC)
+	coordinates = FindTemplate(pyramid, template, threshold)
 
-#Create a pyramid of resized images 
-pyramid = MakePyramid(im,templateWidth)
+	coordinates = PruneCoordinates(coordinates, templateWidth/2)
+	DrawFaces(im,coordinates,template)
 
-coordinates = FindTemplate(pyramid, template, threshold)
-
-coordinates = PruneCoordinates(coordinates, templateWidth/2)
-DrawFaces(im,coordinates,template)
+	return coordinates
 
 
+#GetCoordinates()
