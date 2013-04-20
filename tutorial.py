@@ -13,6 +13,7 @@ urls = (
     '/cats', 'cats',
     '/blur', 'blur',
     '/sharpen', 'sharpen',
+    '/emboss', 'emboss',
     '/sepia', 'sepia',
 	)
 
